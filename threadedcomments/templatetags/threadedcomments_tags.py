@@ -54,7 +54,9 @@ class BaseThreadedCommentNode(BaseCommentNode):
             qs = qs.order_by('-submit_date')
         elif self.root_only:
             qs = qs.exclude(parent__isnull=False).order_by('-submit_date')
-        return qs
+        return qs.extra(select={
+            'tree_path_root': "SPLIT_PART(tree_path, '/', 1)" }).order_by(
+            '-tree_path_root', 'tree_path')
 
 
 class CommentListNode(BaseThreadedCommentNode):
