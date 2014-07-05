@@ -1,4 +1,5 @@
 from django import template
+from django.conf import settings
 from django.template.loader import render_to_string
 from django.contrib.comments.templatetags.comments import BaseCommentNode
 from django.contrib import comments
@@ -54,9 +55,13 @@ class BaseThreadedCommentNode(BaseCommentNode):
             qs = qs.order_by('-submit_date')
         elif self.root_only:
             qs = qs.exclude(parent__isnull=False).order_by('-submit_date')
-        return qs.extra(select={
-            'tree_path_root': "SPLIT_PART(tree_path, '/', 1)" }).order_by(
-            '-tree_path_root', 'tree_path')
+
+        if 'postgresql' in settings.DATABASES['default']['ENGINE']:
+            return qs.extra(select={
+                'tree_path_root': "SPLIT_PART(tree_path, '/', 1)"}).order_by(
+                '-tree_path_root', 'tree_path')
+        else:
+            return qs
 
 
 class CommentListNode(BaseThreadedCommentNode):
