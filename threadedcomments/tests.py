@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from django.test import TransactionTestCase
-from django.contrib import comments
+import django_comments as comments
 from django.contrib.sites.models import Site
 from django.template import loader, TemplateSyntaxError
 from django.conf import settings
