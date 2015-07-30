@@ -1,4 +1,8 @@
-from itertools import chain, imap
+from itertools import chain
+try:
+    from itertools import imap
+except:
+    imap = map
 
 __all__ = ['fill_tree', 'annotate_tree_properties', ]
 
