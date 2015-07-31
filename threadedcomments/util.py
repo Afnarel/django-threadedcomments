@@ -62,7 +62,7 @@ def annotate_tree_properties(comments):
 
         else: # c.depth <= old.depth
             # close some depths
-            old.close = range(old.depth - c.depth)
+            old.close = list(range(old.depth - c.depth))
 
             # new thread
             if old.root_id != c.root_id:
