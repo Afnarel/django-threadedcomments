@@ -58,6 +58,7 @@ class ThreadedComment(Comment):
         super(ThreadedComment, self).delete(*args, **kwargs)
 
     class Meta(object):
+        app_label = 'threadedcomments'
         ordering = ('tree_path',)
         db_table = 'threadedcomments_comment'
         verbose_name = _('Threaded comment')
